@@ -19,7 +19,10 @@ def processFrame(frame):
     for i in range(0,24):
         for j in range(0,50):
             f = frame[99-(j*2)][47-(i*2)]
-            pixels.append( (f[2],f[1],f[0] ))
+            r = f[1]
+            g = f[2]
+            b = f[0]
+            pixels.append( (r,g,b))
     return pixels 
 
 
