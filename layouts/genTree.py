@@ -22,16 +22,18 @@ stepHeight = (treeHyp/ledsPerStrand)*math.sin(baseAngle)
 # then continues at base of second column...ending at top of last column
 pixels = []
 angle = 0.0
+zig = True
 for col in range(0,numStrands):
     z = 0.0
+    col_pixels = []
     for pixel in range(0,ledsPerStrand):
         r = baseRadius - z*math.cos(baseAngle) + treeTopRadius
         x = r*np.sin(angle*np.pi/180.)
         y = r*np.cos(angle*np.pi/180.)
-        pixels.append( (x,y,z) )
+        #pixels.append( (x,y,z) )
         z += stepHeight
     angle += stepAngle
-
+    pixels += col_pixels
 # Write out to screen
 lines = []
 for p in pixels:
