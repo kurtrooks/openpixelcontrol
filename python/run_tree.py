@@ -63,7 +63,8 @@ def playAnimation(filename,maxDuration=60.0,loop=True):
     cap.release()
 
     startTime = time.time()
-    while play:
+    global run 
+    while play and run:
         t = time.time()
 
         frame = frames[fn]
