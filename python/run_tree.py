@@ -39,7 +39,7 @@ def processFrame(frame,sim=False,zig=False):
 
 
 
-def playAnimation(filename,maxDuration=60.0,loop=True):
+def playAnimation(filename,maxDuration=60.0,loop=True,sim=False,zig=True):
 
     play = True
     cap = cv2.VideoCapture(filename)
@@ -75,7 +75,7 @@ def playAnimation(filename,maxDuration=60.0,loop=True):
             else:
                 play = False
 
-        client.put_pixels(processFrame(frame,options.sim,options.zig),channel=0)
+        client.put_pixels(processFrame(frame,sim,zig),channel=0)
 
         while time.time() - t < (1.0/fps):
             time.sleep(0.001)
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     parser.add_option("-i","--ip",dest="ip_port",default="localhost:7890")
     parser.add_option("-l",action="store_true",dest="loop",default=False)
     parser.add_option("-s",action="store_true",dest="sim",default=False)
-    parser.add_option("-z",action="store_true",dest="zig",default=False)
+    parser.add_option("-z",action="store_true",dest="zig",default=True)
 
     (options,args) = parser.parse_args()
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         files = glob(options.dir + "/*")
         for animation in files:
             try:
-                playAnimation(animation)
+                playAnimation(animation,sim=options.sim,zig=options.zig)
             except Exception as ex:
                 print("Exception with animation",animation,ex)
 
