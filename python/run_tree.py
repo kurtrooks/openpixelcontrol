@@ -39,7 +39,7 @@ def processFrame(frame,sim=False,zig=False):
 
 
 
-def playAnimation(filename,maxDuration=60.0,loop=True,sim=False,zig=True):
+def playAnimation(filename,maxDuration=20.0,loop=True,sim=False,zig=True):
 
     play = True
     cap = cv2.VideoCapture(filename)
