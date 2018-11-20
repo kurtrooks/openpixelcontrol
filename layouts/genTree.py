@@ -8,9 +8,9 @@ numStrands = 48
 treeCoverageAngle = 360. # deg
 
 # Tree dimensions, units don't really matter, just ratios
-treeTopRadius = 0.5
+treeTopRadius = .75
 treeHeight = 5.
-baseRadius = 3.5
+baseRadius = 2.
 
 stepAngle = treeCoverageAngle / numStrands
 treeHyp = math.sqrt( (baseRadius*baseRadius) + (treeHeight*treeHeight) )
