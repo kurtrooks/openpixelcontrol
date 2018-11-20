@@ -44,6 +44,10 @@ def playAnimation(filename,maxDuration=60.0,loop=True,sim=False,zig=True):
     play = True
     cap = cv2.VideoCapture(filename)
 
+    # Find OpenCV version
+    (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+
+
     if cap.isOpened() == False:
         print("Error opening",filename)
         return 
@@ -53,8 +57,16 @@ def playAnimation(filename,maxDuration=60.0,loop=True,sim=False,zig=True):
     frame = None
     frames = []
 
-    fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
-    numFrames = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)) 
+    fps = None
+    numFrames =0 
+
+    if major_ver < 3:
+        fps  = cap.get(cv2.CV_CAP_PROP_FPS)
+        numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    else:
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    
     for i in range(0,numFrames):
         ret,frame = cap.read()
         if ret == True:

@@ -56,6 +56,8 @@ if client.can_connect():
 else:
     print('    WARNING: could not connect to %s' % options.ip_port)
 
+# Find OpenCV version
+(major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
 cap = cv2.VideoCapture(options.filename)
 
@@ -64,9 +66,16 @@ if cap.isOpened() == False:
     exit()
 
 frames = []
-fps  = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+fps = None
+numFrames =0 
 
-numFrames = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)) 
+if major_ver < 3:
+    fps  = cap.get(cv2.CV_CAP_PROP_FPS)
+    numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+else:
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
 for i in range(0,numFrames):
     ret,frame = cap.read()
     if ret == True:
