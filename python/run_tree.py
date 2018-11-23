@@ -39,7 +39,7 @@ def processFrame(frame,sim=False,zig=False):
 
 
 
-def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True):
+def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True,rotate=False):
 
     play = True
     cap = cv2.VideoCapture(filename)
@@ -75,8 +75,12 @@ def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True):
     cap.release()
 
     startTime = time.time()
-    global run 
+    global run
+
+    rotate_offset = 0
+
     while play and run:
+
         t = time.time()
 
         frame = frames[fn]
@@ -87,7 +91,15 @@ def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True):
             else:
                 play = False
 
-        client.put_pixels(processFrame(frame,sim,zig),channel=0)
+
+        pframe = processFrame(frame,sim,zig)
+        if rotate:
+            roff = int(rotate_offset)
+            rframe = pframe[50*roff:] + pframe[:roff*50]
+            pframe = rframe
+            rotate_offset = (rotate_offset + 1/6.0) % 25
+
+        client.put_pixels(pframe,channel=0)
 
         while time.time() - t < (1.0/fps):
             time.sleep(0.001)
@@ -107,6 +119,7 @@ if __name__ == "__main__":
     parser.add_option("-l",action="store_true",dest="loop",default=False)
     parser.add_option("-s",action="store_true",dest="sim",default=False)
     parser.add_option("-z",action="store_true",dest="zig",default=True)
+    parser.add_option("-r",action="store_true",dest="rotate",default=False)
 
     (options,args) = parser.parse_args()
 
@@ -122,7 +135,11 @@ if __name__ == "__main__":
         files = glob(options.dir + "/*")
         for animation in sorted(files):
             try:
-                playAnimation(animation,sim=options.sim,zig=options.zig)
+                rotate = False
+                if "_rotate" in animation and options.rotate is True:
+                    rotate = True
+
+                playAnimation(animation,sim=options.sim,zig=options.zig,rotate=rotate)
             except Exception as ex:
                 print("Exception with animation",animation,ex)
 
