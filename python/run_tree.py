@@ -39,7 +39,7 @@ def processFrame(frame,sim=False,zig=False):
 
 
 
-def playAnimation(filename,maxDuration=20.0,loop=True,sim=False,zig=True):
+def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True):
 
     play = True
     cap = cv2.VideoCapture(filename)
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     
     while run:
         files = glob(options.dir + "/*")
-        for animation in files:
+        for animation in sorted(files):
             try:
                 playAnimation(animation,sim=options.sim,zig=options.zig)
             except Exception as ex:
