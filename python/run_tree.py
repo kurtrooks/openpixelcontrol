@@ -61,8 +61,9 @@ def playAnimation(filename,maxDuration=10.0,loop=True,sim=False,zig=True,rotate=
     numFrames =0 
 
     if major_ver < 3:
-        fps  = cap.get(cv2.CV_CAP_PROP_FPS)
-        numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        # TODO: might still be a typo here, refer to openCV documentation!!
+        fps  = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+        numFrames = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
     else:
         fps = cap.get(cv2.CAP_PROP_FPS)
         numFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
