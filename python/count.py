@@ -13,7 +13,7 @@ if client.can_connect():
 else:
     print('    WARNING: could not connect to %s' % "localhost:7890")
 
-numPix = 480
+numPix = 960
 lastX = numPix - 1
 x = 0
 nextX = 1
@@ -28,4 +28,4 @@ while True:
     lastX = x
     x = (x+1)%numPix
     nextX = (x+1)%numPix
-    time.sleep(0.01)
+    time.sleep(0.001)
